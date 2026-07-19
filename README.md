@@ -99,15 +99,26 @@ As specified in the challenge, employee data is stored using an in-memory Concur
 ### GET /api/v1/employee
 
 Returns all employees.
-!
+<p align="center">
+    <img src="images/1.png" width="800">
+</p>
 
 ### GET /api/v1/employee/{uuid}
 
 Returns an employee by UUID.
+<p align="center">
+    <img src="images/2.png" width="800">
+</p>
+<p align="center">
+    <img src="images/4.png" width="800">
+</p>
 
 ### POST /api/v1/employee
 
 Creates a new employee.
+<p align="center">
+    <img src="images/3.png" width="800">
+</p>
 
 Sample JSON:
 
