@@ -9,6 +9,9 @@ It exposes employee information through a REST API using a layered
 architecture. As required by the challenge, no database is used;
 employee data is stored in memory using a ConcurrentHashMap.
 
+The project follows a layered architecture to keep responsibilities 
+separated and the codebase easy to maintain and extend.
+
 ## Technology Stack
 
 -   Java 21
@@ -21,30 +24,82 @@ employee data is stored in memory using a ConcurrentHashMap.
 ## Project Structure
 
 ``` text
-controller/
-service/
-repository/
-dto/
-model/
+src/main/java
+└── com.challenge.api
+    ├── controller/
+    │    └── EmployeeController
+    │
+    ├── service/
+    │     ├── EmployeeService
+    │     └── EmployeeServiceImpl
+    │
+    ├── repository/
+    │     ├── EmployeeRepository
+    │     └── InMemoryEmployeeRepository
+    │
+    ├── dto/
+    │     └── CreateEmployeeRequest
+    │
+    └── model/
+    |    ├── Employee
+    |    └── EmployeeImpl
+    └── EntryLevelJavaChallengeApplication
 ```
 
 ## Architecture
 
 ``` text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-ConcurrentHashMap
+                    HTTP Request
+                        │
+                        ▼
+                 EmployeeController
+                        │
+                        ▼
+                  EmployeeService
+                        │
+                        ▼
+                EmployeeServiceImpl
+                        │
+                        ▼
+                 EmployeeRepository
+                        │
+                        ▼
+              InMemoryEmployeeRepository
+                        │
+                        ▼
+             ConcurrentHashMap (Mock Data)
 ```
+
+## Design Decisions
+
+### Layered Architecture
+``` text
+The application separates concerns into Controller, Service, and Repository layers to improve maintainability and readability.
+```
+### Dependency Injection
+``` text
+Constructor injection is used throughout the application to reduce coupling and improve testability.
+```
+### Repository Abstraction
+``` text
+A repository interface is introduced even though the application uses an in-memory implementation. This makes it easy to replace the storage mechanism with a database in the future without changing the service layer.
+```
+### DTO-Based API
+``` text
+The API accepts a dedicated request DTO instead of exposing the domain model directly. This keeps the API contract independent from the internal model.
+```
+### Mock Persistence
+``` text
+As specified in the challenge, employee data is stored using an in-memory ConcurrentHashMap initialized with sample employee records.
+```
+
 
 ## APIs
 
 ### GET /api/v1/employee
 
 Returns all employees.
+!
 
 ### GET /api/v1/employee/{uuid}
 
